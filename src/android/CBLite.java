@@ -26,6 +26,7 @@ public class CBLite extends CordovaPlugin {
 	private static final int DEFAULT_LISTEN_PORT = 5984;
 	private boolean initFailed = false;
 	private int listenPort;
+	private Manager couchManager;
     private Credentials allowedCredentials;
 
 	/**
@@ -54,8 +55,9 @@ public class CBLite extends CordovaPlugin {
 			View.setCompiler(new JavaScriptViewCompiler());
 
 			Manager server = startCBLite(this.cordova.getActivity());
+			this.couchManager = server;
 
-			listenPort = startCBLListener(DEFAULT_LISTEN_PORT, server, allowedCredentials);
+			listenPort = startCBLListener(DEFAULT_LISTEN_PORT, server, allowedCredentials, true);
 
 			System.out.println("initCBLite() completed successfully");
 
@@ -137,5 +139,7 @@ public class CBLite extends CordovaPlugin {
 		System.out.println("CBLite.onPause() called");
 	}
 
-
+	public Manager getCouchManager() {
+		return this.couchManager;
+	}
 }
